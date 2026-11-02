@@ -3,6 +3,7 @@ import 'package:flutter/foundation.dart';
 class Appkeys {
   static const loginModal = Key('login_modal');
   static const signUpModal = Key('sign_up_modal');
+  static const unauthenticatedModal = Key('unauthenticated_modal');
   static const openLoginModalButton = Key('open_login_modal_button');
   static const opensignUpModalButton = Key('open_sign_up_modal_button');
   static const logoutButton = Key('log_out_button');
