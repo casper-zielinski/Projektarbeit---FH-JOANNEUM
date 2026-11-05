@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class Rectanglebutton extends StatelessWidget {
-  const Rectanglebutton({
+class RectangleTextbutton extends StatelessWidget {
+  const RectangleTextbutton({
     super.key,
     required this.buttonColor,
     required this.child,

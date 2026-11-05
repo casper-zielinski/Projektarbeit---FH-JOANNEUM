@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutterapp/constants/appcolors.dart';
-import 'package:flutterapp/widgets/rectanglebutton.dart';
+import 'package:flutterapp/widgets/rectangletextbutton.dart';
 
 class Footer extends StatelessWidget {
   const Footer({super.key, required this.isAuthenitcated});
@@ -16,7 +16,7 @@ class Footer extends StatelessWidget {
             decoration: BoxDecoration(
               color: AppColors.banner,
               border: BoxBorder.fromLTRB(
-                top: BorderSide(width: 2, color: Colors.lightBlue.shade400),
+                top: BorderSide(width: 2, color: AppColors.border),
               ),
             ),
             child: Column(
@@ -38,7 +38,7 @@ class Footer extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   spacing: 12,
                   children: [
-                    Rectanglebutton(
+                    RectangleTextbutton(
                       buttonColor: const Color.fromARGB(250, 0, 0, 0),
                       child: Text(
                         "Log In",
@@ -46,7 +46,7 @@ class Footer extends StatelessWidget {
                       ),
                       onPressed: () {},
                     ),
-                    Rectanglebutton(
+                    RectangleTextbutton(
                       buttonColor: AppColors.accentCyan,
                       child: Text(
                         "Sign Up",
@@ -56,7 +56,7 @@ class Footer extends StatelessWidget {
                       ),
                       onPressed: () {},
                     ),
-                    Rectanglebutton(
+                    RectangleTextbutton(
                       buttonColor: AppColors.guestTeal,
                       child: Text(
                         "Login as Guest",
