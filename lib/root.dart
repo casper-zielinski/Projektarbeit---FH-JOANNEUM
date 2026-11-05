@@ -1,14 +1,37 @@
 import 'package:flutter/material.dart';
+import 'package:flutterapp/constants/apppage.dart';
+import 'package:flutterapp/pages/home.dart';
+import 'package:flutterapp/pages/settings.dart';
 import 'package:flutterapp/widgets/footer.dart';
 import 'package:flutterapp/widgets/sidebar.dart';
 
-class Root extends StatelessWidget {
+class Root extends StatefulWidget {
   const Root({super.key});
+
+  @override
+  State<Root> createState() => _RootState();
+}
+
+class _RootState extends State<Root> {
+  AppPage _page = AppPage.home;
+
+  void _goTo(AppPage page) => setState(() => _page = page);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Row(mainAxisSize: MainAxisSize.max, children: [Sidebar()]),
+      body: Row(
+        mainAxisSize: MainAxisSize.max,
+        children: [
+          Sidebar(onSelect: (apppage) => _goTo(apppage)),
+          Expanded(
+            child: switch (_page) {
+              AppPage.home => const Home(),
+              AppPage.settings => const Settings(),
+            },
+          ),
+        ],
+      ),
       bottomNavigationBar: Footer(isAuthenitcated: false),
     );
   }
