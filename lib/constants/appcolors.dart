@@ -4,6 +4,7 @@ class AppColors {
   static const Color accentCyan = Color(0xFF00BFFF);
   static const Color banner = Color.fromARGB(255, 72, 161, 220);
   static const Color primaryBlue = Color(0xFF3B82F6);
+  static const Color secondary = Color.fromARGB(255, 214, 217, 222);
   static const Color guestTeal = Color(0xFF14B8A6);
   static const Color background = Color(0xFFFFFFFF);
   static const Color sidebarBackground = Color(0xFFEEF1F6);

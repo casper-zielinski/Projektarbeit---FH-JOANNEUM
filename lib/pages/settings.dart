@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutterapp/constants/appcolors.dart';
 import 'package:flutterapp/constants/appkeys.dart';
+import 'package:flutterapp/widgets/settingscontainer.dart';
 
 class Settings extends StatelessWidget {
   const Settings({super.key});
@@ -16,6 +17,7 @@ class Settings extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.max,
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          spacing: 10,
           children: [
             Text(
               "Settings",
@@ -24,6 +26,19 @@ class Settings extends StatelessWidget {
                 fontSize: 32,
                 fontWeight: FontWeight.bold,
               ),
+            ),
+            Text(
+              "Manage your account settings and preferences",
+              style: TextStyle(
+                color: AppColors.textSecondary,
+                fontSize: 18,
+                fontWeight: FontWeight.w800,
+              ),
+            ),
+            Settingscontainer(
+              icon: Icon(Icons.person_pin, color: Colors.blueAccent, size: 32),
+              title: "Profile",
+              child: Column(children: []),
             ),
           ],
         ),
