@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutterapp/constants/appcolors.dart';
+import 'package:flutterapp/widgets/rectanglebutton.dart';
 
 class Footer extends StatelessWidget {
   const Footer({super.key, required this.isAuthenitcated});
@@ -11,9 +13,12 @@ class Footer extends StatelessWidget {
         ? Container()
         : Container(
             padding: EdgeInsets.all(24),
-            decoration: BoxDecoration(color: Colors.blue, border: BoxBorder.fromLTRB(top: BorderSide(
-              width: 2, color: Colors.lightBlue.shade400
-            ))),
+            decoration: BoxDecoration(
+              color: AppColors.banner,
+              border: BoxBorder.fromLTRB(
+                top: BorderSide(width: 2, color: Colors.lightBlue.shade400),
+              ),
+            ),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               spacing: 12,
@@ -21,7 +26,7 @@ class Footer extends StatelessWidget {
                 Text(
                   "Don't miss out on chatting with your Brain",
                   style: TextStyle(
-                    color: const Color.fromARGB(255, 165, 227, 255),
+                    color: AppColors.bannerTitle,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
@@ -33,49 +38,31 @@ class Footer extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   spacing: 12,
                   children: [
-                    TextButton(
-                      onPressed: () {},
-                      style: TextButton.styleFrom(
-                        backgroundColor: const Color.fromARGB(250, 0, 0, 0),
-                      ),
+                    Rectanglebutton(
+                      buttonColor: const Color.fromARGB(250, 0, 0, 0),
                       child: Text(
                         "Log In",
                         style: TextStyle(color: Colors.blue),
                       ),
-                    ),
-                    TextButton(
                       onPressed: () {},
-                      style: TextButton.styleFrom(
-                        backgroundColor: const Color.fromARGB(
-                          249,
-                          24,
-                          175,
-                          195,
-                        ),
-                      ),
+                    ),
+                    Rectanglebutton(
+                      buttonColor: AppColors.accentCyan,
                       child: Text(
                         "Sign Up",
                         style: TextStyle(
                           color: const Color.fromARGB(255, 30, 62, 80),
                         ),
                       ),
-                    ),
-                    TextButton(
                       onPressed: () {},
-                      style: TextButton.styleFrom(
-                        backgroundColor: const Color.fromARGB(
-                          248,
-                          24,
-                          195,
-                          141,
-                        ),
-                      ),
+                    ),
+                    Rectanglebutton(
+                      buttonColor: AppColors.guestTeal,
                       child: Text(
                         "Login as Guest",
-                        style: TextStyle(
-                          color: const Color.fromARGB(255, 25, 69, 52),
-                        ),
+                        style: TextStyle(color: AppColors.textOnAccent),
                       ),
+                      onPressed: () {},
                     ),
                   ],
                 ),
