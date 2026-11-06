@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutterapp/widgets/unauthicatedfooter.dart';
+import 'package:flutterapp/widgets/footer/unauthicatedfooter.dart';
 
 class Footer extends StatelessWidget {
   const Footer({super.key, required this.isAuthenitcated});

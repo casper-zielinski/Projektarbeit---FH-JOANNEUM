@@ -19,4 +19,15 @@ class AppColors {
   static const Color iconDefault = Color(0xFF000000);
   static const Color border = Color(0xFF3B82F6);
   static const Color topBar = Color(0xFF1F2937);
+  static const Color modalBarrier = Color(0x99000000);
+  static const Color modalBackground = Color(0xFF1D232A);
+  static const Color modalBorder = Color(0xFF3A424D);
+  static const Color modalTitle = Color(0xFFFFFFFF);
+  static const Color modalText = Color(0xFFE5E7EB);
+  static const Color modalHint = Color(0xFF8A929E);
+  static const Color modalLabel = Color(0xFFA6ADBB);
+  static const Color info = Color(0xFF00BAFE);
+  static const Color modalButtonDisabled = Color(0xFF2A323C);
+  static const Color modalButtonDisabledText = Color(0xFF5B6470);
+  static const Color modalButtonFilled = Color(0xFF252D38);
 }

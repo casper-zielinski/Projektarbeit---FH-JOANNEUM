@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutterapp/constants/apppage.dart';
 import 'package:flutterapp/pages/home.dart';
 import 'package:flutterapp/pages/settings.dart';
-import 'package:flutterapp/widgets/footer.dart';
+import 'package:flutterapp/widgets/footer/footer.dart';
 import 'package:flutterapp/widgets/sidebar.dart';
 
 class Root extends StatefulWidget {

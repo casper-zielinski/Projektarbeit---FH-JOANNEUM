@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutterapp/constants/appcolors.dart';
 import 'package:flutterapp/constants/appkeys.dart';
+import 'package:flutterapp/widgets/modal/loginmodal.dart';
+import 'package:flutterapp/widgets/modal/signupmodal.dart';
 import 'package:flutterapp/widgets/rectangletextbutton.dart';
 
 class Unauthicatedfooter extends StatelessWidget {
@@ -39,7 +41,13 @@ class Unauthicatedfooter extends StatelessWidget {
               RectangleTextbutton(
                 buttonColor: const Color.fromARGB(250, 0, 0, 0),
                 child: Text("Log In", style: TextStyle(color: Colors.blue)),
-                onPressed: () {},
+                onPressed: () {
+                  showDialog(
+                    context: context,
+                    barrierColor: AppColors.modalBarrier,
+                    builder: (context) => const Loginmodal(),
+                  );
+                },
               ),
               RectangleTextbutton(
                 buttonColor: AppColors.accentCyan,
@@ -49,7 +57,13 @@ class Unauthicatedfooter extends StatelessWidget {
                     color: const Color.fromARGB(255, 30, 62, 80),
                   ),
                 ),
-                onPressed: () {},
+                onPressed: () {
+                  showDialog(
+                    context: context,
+                    barrierColor: AppColors.modalBarrier,
+                    builder: (context) => const Signupmodal(),
+                  );
+                },
               ),
               RectangleTextbutton(
                 buttonColor: AppColors.guestTeal,
