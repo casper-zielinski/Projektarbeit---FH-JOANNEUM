@@ -6,11 +6,13 @@ class RectangleTextbutton extends StatelessWidget {
     required this.buttonColor,
     required this.child,
     required this.onPressed,
+    this.size,
   });
 
   final Color buttonColor;
   final Widget child;
   final void Function()? onPressed;
+  final Size? size;
 
   @override
   Widget build(BuildContext context) {
@@ -19,6 +21,7 @@ class RectangleTextbutton extends StatelessWidget {
       style: TextButton.styleFrom(
         backgroundColor: buttonColor,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
+        minimumSize: size,
       ),
       child: child,
     );

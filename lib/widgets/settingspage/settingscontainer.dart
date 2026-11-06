@@ -22,6 +22,7 @@ class Settingscontainer extends StatelessWidget {
         borderRadius: BorderRadius.all(Radius.circular(16)),
       ),
       child: Column(
+        spacing: 32,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
