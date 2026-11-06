@@ -1,6 +1,3 @@
-import 'dart:math';
-
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutterapp/constants/appkeys.dart';
@@ -24,10 +21,30 @@ void main() {
         await tester.tap(find.byKey(Appkeys.settingsButton));
         await tester.pumpAndSettle();
 
-        expect(find.byKey(Appkeys.settingsPage), findsOneWidget);
-        expect(find.text(Textconstants.displaynamePlaceholder), findsOneWidget);
-        expect(find.text(Textconstants.emailPlaceholder), findsOneWidget);
-        expect(find.text(Textconstants.usernamePlaceholder), findsOneWidget);
+        final settingsPage = find.byKey(Appkeys.settingsPage);
+
+        expect(settingsPage, findsOneWidget);
+        expect(
+          find.descendant(
+            of: settingsPage,
+            matching: find.text(Textconstants.usernamePlaceholder),
+          ),
+          findsOneWidget,
+        );
+        expect(
+          find.descendant(
+            of: settingsPage,
+            matching: find.text(Textconstants.displaynamePlaceholder),
+          ),
+          findsOneWidget,
+        );
+        expect(
+          find.descendant(
+            of: settingsPage,
+            matching: find.text(Textconstants.emailPlaceholder),
+          ),
+          findsOneWidget,
+        );
         await tester.tap(find.byKey(Appkeys.homebutton));
         await tester.pumpAndSettle();
         expect(find.byKey(Appkeys.homePage), findsOneWidget);

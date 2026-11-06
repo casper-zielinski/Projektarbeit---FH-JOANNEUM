@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutterapp/constants/appcolors.dart';
 import 'package:flutterapp/constants/appkeys.dart';
+import 'package:flutterapp/constants/textconstants.dart';
 import 'package:flutterapp/widgets/settingscontainer.dart';
 
 class Settings extends StatelessWidget {
@@ -38,7 +39,37 @@ class Settings extends StatelessWidget {
             Settingscontainer(
               icon: Icon(Icons.person_pin, color: Colors.blueAccent, size: 32),
               title: "Profile",
-              child: Column(children: []),
+              child: Column(
+                mainAxisSize: MainAxisSize.max,
+                spacing: 8,
+                children: [
+                  TextField(
+                    controller: TextEditingController(
+                      text: Textconstants.usernamePlaceholder,
+                    ),
+                  ),
+                  TextField(
+                    controller: TextEditingController(
+                      text: Textconstants.displaynamePlaceholder,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Settingscontainer(
+              icon: Icon(Icons.security, color: Colors.green, size: 32),
+              title: "Account & Security",
+              child: Column(
+                mainAxisSize: MainAxisSize.max,
+                spacing: 8,
+                children: [
+                  TextField(
+                    controller: TextEditingController(
+                      text: Textconstants.emailPlaceholder,
+                    ),
+                  ),
+                ],
+              ),
             ),
           ],
         ),
