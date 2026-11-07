@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterapp/constants/appcolors.dart';
 import 'package:flutterapp/constants/appkeys.dart';
@@ -7,7 +8,8 @@ import 'package:flutterapp/widgets/settingspage/settingscontainer.dart';
 import 'package:flutterapp/widgets/settingspage/settingstextfield.dart';
 
 class Profilesection extends StatefulWidget {
-  const Profilesection({super.key});
+  final User? user;
+  const Profilesection({super.key, required this.user});
 
   @override
   State<Profilesection> createState() => _ProfilesectionState();
@@ -22,10 +24,10 @@ class _ProfilesectionState extends State<Profilesection> {
   void initState() {
     super.initState();
     _usernameController = TextEditingController(
-      text: Textconstants.usernamePlaceholder,
+      text: widget.user?.displayName ?? Textconstants.usernamePlaceholder,
     );
     _displayNameController = TextEditingController(
-      text: Textconstants.displaynamePlaceholder,
+      text: widget.user?.displayName ?? Textconstants.usernamePlaceholder,
     );
     _bioController = TextEditingController();
   }

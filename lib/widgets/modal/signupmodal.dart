@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutterapp/constants/appcolors.dart';
 import 'package:flutterapp/constants/appkeys.dart';
+import 'package:flutterapp/service/authservice.dart';
 import 'package:flutterapp/widgets/modal/loginmodal.dart';
 import 'package:flutterapp/widgets/modal/modaltextfield.dart';
 import 'package:flutterapp/widgets/modal/modaltextfieldpassword.dart';
@@ -82,7 +83,9 @@ class _SignupmodalState extends State<Signupmodal> {
               RectangleTextbutton(
                 key: Appkeys.signUpButton,
                 buttonColor: AppColors.modalButtonDisabled,
-                onPressed: () {},
+                onPressed: () async {
+                  AuthService().signUp(email: _emailController.text, password: _passwordController.text, username: _usernameController.text);
+                },
                 child: Text(
                   "Sign Up",
                   style: TextStyle(

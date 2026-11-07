@@ -5,7 +5,8 @@ import 'package:flutterapp/widgets/settingspage/settingschangebutton.dart';
 import 'package:flutterapp/widgets/settingspage/settingstextfield.dart';
 
 class Emailtextfield extends StatefulWidget {
-  const Emailtextfield({super.key});
+  final String email;
+  const Emailtextfield({super.key, required this.email});
 
   @override
   State<Emailtextfield> createState() => _EmailtextfieldState();
@@ -25,7 +26,7 @@ class _EmailtextfieldState extends State<Emailtextfield> {
   void initState() {
     super.initState();
     _emailController = TextEditingController(
-      text: Textconstants.emailPlaceholder,
+      text: widget.email,
     );
   }
 

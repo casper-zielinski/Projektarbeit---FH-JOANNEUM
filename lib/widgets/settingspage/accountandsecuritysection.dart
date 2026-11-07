@@ -1,10 +1,13 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutterapp/constants/textconstants.dart';
 import 'package:flutterapp/widgets/settingspage/emailtextfield.dart';
 import 'package:flutterapp/widgets/settingspage/passwordtextfield.dart';
 import 'package:flutterapp/widgets/settingspage/settingscontainer.dart';
 
 class Accountandsecuritysection extends StatelessWidget {
-  const Accountandsecuritysection({super.key});
+  final User? user;
+  const Accountandsecuritysection({super.key, required this.user});
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +17,7 @@ class Accountandsecuritysection extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.max,
         spacing: 16,
-        children: [Emailtextfield(), Passwordtextfield()],
+        children: [Emailtextfield(email: user?.email ?? Textconstants.emailPlaceholder), Passwordtextfield()],
       ),
     );
   }
