@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutterapp/constants/appcolors.dart';
+import 'package:flutterapp/constants/appkeys.dart';
 import 'package:flutterapp/widgets/modal/loginmodal.dart';
 import 'package:flutterapp/widgets/modal/modaltextfield.dart';
 import 'package:flutterapp/widgets/modal/modaltextfieldpassword.dart';
@@ -28,6 +29,7 @@ class _SignupmodalState extends State<Signupmodal> {
   @override
   Widget build(BuildContext context) {
     return Dialog(
+      key: Appkeys.signUpModal,
       backgroundColor: AppColors.modalBackground,
       insetPadding: const EdgeInsets.symmetric(horizontal: 24),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
@@ -60,21 +62,25 @@ class _SignupmodalState extends State<Signupmodal> {
               ),
               const SizedBox(height: 16),
               ModalTextField(
+                key: Appkeys.usernameTextField,
                 label: 'Username',
                 hintText: 'Username',
                 controller: _usernameController,
               ),
               ModalTextField(
+                key: Appkeys.emailTextField,
                 label: 'Email',
                 hintText: 'mail@site.com',
                 controller: _emailController,
               ),
               ModalTextFieldPassword(
+                key: Appkeys.passwordTextField,
                 label: 'Password',
                 hintText: 'Password',
                 controller: _passwordController,
               ),
               RectangleTextbutton(
+                key: Appkeys.signUpButton,
                 buttonColor: AppColors.modalButtonDisabled,
                 onPressed: () {},
                 child: Text(
@@ -109,6 +115,7 @@ class _SignupmodalState extends State<Signupmodal> {
               ),
               const SizedBox(height: 16),
               RectangleTextbutton(
+                key: Appkeys.switchToLoginButton,
                 buttonColor: AppColors.modalButtonFilled,
                 size: Size(120, 32),
                 onPressed: () {

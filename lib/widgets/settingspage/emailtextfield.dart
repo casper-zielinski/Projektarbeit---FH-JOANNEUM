@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutterapp/constants/appkeys.dart';
 import 'package:flutterapp/constants/textconstants.dart';
 import 'package:flutterapp/widgets/settingspage/settingschangebutton.dart';
 import 'package:flutterapp/widgets/settingspage/settingstextfield.dart';
@@ -41,6 +42,7 @@ class _EmailtextfieldState extends State<Emailtextfield> {
       spacing: 6,
       children: [
         Settingstextfield(
+          key: Appkeys.email,
           label: "Your Email",
           controller: _emailController,
           enabled: _change,

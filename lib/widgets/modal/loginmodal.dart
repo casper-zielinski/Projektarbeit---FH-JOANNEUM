@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutterapp/constants/appcolors.dart';
+import 'package:flutterapp/constants/appkeys.dart';
 import 'package:flutterapp/widgets/modal/modaltextfield.dart';
 import 'package:flutterapp/widgets/modal/modaltextfieldpassword.dart';
 import 'package:flutterapp/widgets/modal/signupmodal.dart';
@@ -26,6 +27,7 @@ class _LoginmodalState extends State<Loginmodal> {
   @override
   Widget build(BuildContext context) {
     return Dialog(
+      key: Appkeys.loginModal,
       backgroundColor: AppColors.modalBackground,
       insetPadding: const EdgeInsets.symmetric(horizontal: 24),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
@@ -58,16 +60,19 @@ class _LoginmodalState extends State<Loginmodal> {
               ),
               const SizedBox(height: 16),
               ModalTextField(
+                key: Appkeys.emailTextField,
                 label: 'Email',
                 hintText: 'mail@site.com',
                 controller: _emailController,
               ),
               ModalTextFieldPassword(
+                key: Appkeys.passwordTextField,
                 label: 'Password',
                 hintText: 'Password',
                 controller: _passwordController,
               ),
               RectangleTextbutton(
+                key: Appkeys.logInButton,
                 buttonColor: AppColors.modalButtonDisabled,
                 onPressed: () {},
                 child: Text(
@@ -102,6 +107,7 @@ class _LoginmodalState extends State<Loginmodal> {
               ),
               const SizedBox(height: 16),
               RectangleTextbutton(
+                key: Appkeys.switchToSignUpButton,
                 buttonColor: AppColors.modalButtonFilled,
                 size: Size(120, 32),
                 onPressed: () {

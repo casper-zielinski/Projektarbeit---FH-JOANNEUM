@@ -3,7 +3,6 @@ import 'package:flutter/foundation.dart';
 class Appkeys {
   static const loginModal = Key('login_modal');
   static const signUpModal = Key('sign_up_modal');
-  static const unauthenticatedModal = Key('unauthenticated_modal');
   static const commentModal = Key('comment_modal');
   static const signUpOrLoginModal = Key("sign_up_or_login_modal");
   static const guestRestrictionModal = Key('guest_restriction_modal');
@@ -13,8 +12,6 @@ class Appkeys {
   static const commentButton = Key("comment_button");
   static const settingsButton = Key('settings_button');
   static const homebutton = Key('home_button');
-  static const profilePicture = Key('profile_picture');
-  static const profilePictureWidget = Key('profile_picture_widget');
   static const unauthenticatedFooter = Key('unauthenticated_footer');
   static const loginAsGuestButton = Key('login_as_guest_button');
   static const switchToSignUpButton = Key('switch_to_sign_up_button');

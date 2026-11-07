@@ -39,6 +39,7 @@ class Unauthicatedfooter extends StatelessWidget {
             spacing: 12,
             children: [
               RectangleTextbutton(
+                key: Appkeys.openLoginModalButton,
                 buttonColor: const Color.fromARGB(250, 0, 0, 0),
                 child: Text("Log In", style: TextStyle(color: Colors.blue)),
                 onPressed: () {
@@ -50,6 +51,7 @@ class Unauthicatedfooter extends StatelessWidget {
                 },
               ),
               RectangleTextbutton(
+                key: Appkeys.openSignUpModalButton,
                 buttonColor: AppColors.accentCyan,
                 child: Text(
                   "Sign Up",
@@ -66,6 +68,7 @@ class Unauthicatedfooter extends StatelessWidget {
                 },
               ),
               RectangleTextbutton(
+                key: Appkeys.loginAsGuestButton,
                 buttonColor: AppColors.guestTeal,
                 child: Text(
                   "Login as Guest",

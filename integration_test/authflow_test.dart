@@ -94,8 +94,6 @@ void main() {
     testWidgets('User signs up, logs out, logs in again and logs out', (
       tester,
     ) async {
-      // Eindeutige Mail pro Testlauf, sonst schlägt der Sign-up beim zweiten
-      // Durchlauf mit "email-already-in-use" fehl.
       final String username = 'Jane';
       final String email =
           'jane.${DateTime.now().millisecondsSinceEpoch}@example.com';

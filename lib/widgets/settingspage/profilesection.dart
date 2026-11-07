@@ -72,6 +72,7 @@ class _ProfilesectionState extends State<Profilesection> {
           ),
           Settingstextfield(label: "Username", controller: _usernameController),
           Settingstextfield(
+            key: Appkeys.displayName,
             label: "Display Name",
             controller: _displayNameController,
           ),

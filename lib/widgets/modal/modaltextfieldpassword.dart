@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutterapp/constants/appcolors.dart';
+import 'package:flutterapp/constants/appkeys.dart';
 import 'package:flutterapp/widgets/settingspage/eyebutton.dart';
 
 class ModalTextFieldPassword extends StatefulWidget {
@@ -76,6 +77,7 @@ class _ModalTextFieldPasswordState extends State<ModalTextFieldPassword> {
                 ),
               ),
               EyeButton(
+                key: Appkeys.togglePasswordVisibilityButton,
                 visible: _obscured,
                 onPressed: () => setState(() => _obscured = !_obscured),
                 background: AppColors.modalBackground,
