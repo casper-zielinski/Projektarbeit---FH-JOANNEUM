@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutterapp/constants/apppage.dart';
 import 'package:flutterapp/pages/home.dart';
 import 'package:flutterapp/pages/settings.dart';
+import 'package:flutterapp/service/authservice.dart';
 import 'package:flutterapp/widgets/footer/footer.dart';
 import 'package:flutterapp/widgets/sidebar.dart';
 
@@ -19,20 +20,26 @@ class _RootState extends State<Root> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Row(
-        mainAxisSize: MainAxisSize.max,
-        children: [
-          Sidebar(onSelect: (apppage) => _goTo(apppage)),
-          Expanded(
-            child: switch (_page) {
-              AppPage.home => const Home(),
-              AppPage.settings => const Settings(),
-            },
+    return StreamBuilder(
+      stream: AuthService().userChanges,
+      builder: (context, snapshot) {
+        final user = snapshot.data;
+        return Scaffold(
+          body: Row(
+            mainAxisSize: MainAxisSize.max,
+            children: [
+              Sidebar(onSelect: (apppage) => _goTo(apppage)),
+              Expanded(
+                child: switch (_page) {
+                  AppPage.home => const Home(),
+                  AppPage.settings => Settings(user: user),
+                },
+              ),
+            ],
           ),
-        ],
-      ),
-      bottomNavigationBar: Footer(isAuthenitcated: false),
+          bottomNavigationBar: Footer(user: user),
+        );
+      },
     );
   }
 }

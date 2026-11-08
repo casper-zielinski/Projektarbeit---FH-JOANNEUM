@@ -24,15 +24,21 @@ class _EmailtextfieldState extends State<Emailtextfield> {
   @override
   void initState() {
     super.initState();
-    _emailController = TextEditingController(
-      text: widget.email,
-    );
+    _emailController = TextEditingController(text: widget.email);
   }
 
   @override
   void dispose() {
     _emailController.dispose();
     super.dispose();
+  }
+
+  @override
+  void didUpdateWidget(covariant Emailtextfield oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.email != widget.email) {
+      _emailController.text = widget.email;
+    }
   }
 
   @override

@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutterapp/constants/appcolors.dart';
 import 'package:flutterapp/constants/appkeys.dart';
 import 'package:flutterapp/constants/textconstants.dart';
+import 'package:flutterapp/service/Exceptions/authexception.dart';
+import 'package:flutterapp/service/authservice.dart';
 import 'package:flutterapp/widgets/rectangletextbutton.dart';
 import 'package:flutterapp/widgets/settingspage/settingscontainer.dart';
 import 'package:flutterapp/widgets/settingspage/settingstextfield.dart';
@@ -38,6 +40,17 @@ class _ProfilesectionState extends State<Profilesection> {
     _displayNameController.dispose();
     _bioController.dispose();
     super.dispose();
+  }
+
+  @override
+  void didUpdateWidget(covariant Profilesection oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.user != widget.user) {
+      _usernameController.text =
+          widget.user?.displayName ?? Textconstants.usernamePlaceholder;
+      _displayNameController.text =
+          widget.user?.displayName ?? Textconstants.usernamePlaceholder;
+    }
   }
 
   @override
@@ -86,7 +99,34 @@ class _ProfilesectionState extends State<Profilesection> {
           RectangleTextbutton(
             key: Appkeys.logoutButton,
             buttonColor: Colors.grey,
-            onPressed: () {},
+            onPressed: () async {
+              try {
+                await AuthService().signOut();
+                if (context.mounted) {
+                  Navigator.pop(context);
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text("Successfully loged out!")),
+                  );
+                }
+              } on AuthException catch (error) {
+                if (context.mounted) {
+                  String message = error.message;
+                  ScaffoldMessenger.of(
+                    context,
+                  ).showSnackBar(SnackBar(content: Text(message)));
+                }
+              } catch (error) {
+                if (context.mounted) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text(
+                        "Logout failed for an unknown reason, please try again.",
+                      ),
+                    ),
+                  );
+                }
+              }
+            },
             size: Size(240, 36),
             child: Text(
               "Log out",

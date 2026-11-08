@@ -97,7 +97,7 @@ class _SignupmodalState extends State<Signupmodal> {
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
                           content: Text(
-                            "Registrierung erfolgreich, Willkommen ${user?.displayName ?? "User"}",
+                            "Sign up successful, welcome ${user?.displayName ?? "User"}",
                           ),
                         ),
                       );
@@ -114,7 +114,7 @@ class _SignupmodalState extends State<Signupmodal> {
                       ScaffoldMessenger.of(context).showSnackBar(
                         const SnackBar(
                           content: Text(
-                            "Registrierung fehlgeschlagen aus nicht bekannten gründen, versuchen sie es noch einmal",
+                            "Sign up failed for an unknown reason, please try again.",
                           ),
                         ),
                       );
