@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterapp/constants/AppKeys.dart';
 import 'package:flutterapp/constants/appcolors.dart';
@@ -6,9 +7,10 @@ import 'package:flutterapp/widgets/profilecontainer.dart';
 import 'package:flutterapp/widgets/rectangleiconbutton.dart';
 
 class Sidebar extends StatelessWidget {
-  const Sidebar({super.key, required this.onSelect});
-
   final void Function(AppPage) onSelect;
+  final User? user;
+
+  const Sidebar({super.key, required this.onSelect, required this.user});
 
   @override
   Widget build(BuildContext context) {
@@ -74,7 +76,7 @@ class Sidebar extends StatelessWidget {
               icon: Icon(Icons.email, color: Colors.white),
               onPressed: () {},
             ),
-            Profilecontainer(),
+            Profilecontainer(user: user),
           ],
         ),
       ),

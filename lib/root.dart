@@ -29,7 +29,7 @@ class _RootState extends State<Root> {
             mainAxisSize: MainAxisSize.max,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              Sidebar(onSelect: (apppage) => _goTo(apppage)),
+              Sidebar(onSelect: (apppage) => _goTo(apppage), user: user),
               Expanded(
                 child: switch (_page) {
                   AppPage.home => const Home(),
