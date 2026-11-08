@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutterapp/service/Exceptions/authexception.dart';
 
 class AuthService {
   AuthService({FirebaseAuth? auth}) : _auth = auth ?? FirebaseAuth.instance;
@@ -19,7 +20,7 @@ class AuthService {
       );
 
       final user = credential.user;
-      if (user == null) throw Exception('Registrierung fehlgeschlagen');
+      if (user == null) throw AuthException('Registrierung fehlgeschlagen');
 
       await user.updateDisplayName(username);
       await user.reload();
@@ -28,14 +29,18 @@ class AuthService {
     } on FirebaseAuthException catch (e) {
       switch (e.code) {
         case 'email-already-in-use':
-          throw Exception('Diese E-Mail wird bereits verwendet.');
+          throw AuthException('Diese E-Mail wird bereits verwendet.');
         case 'weak-password':
-          throw Exception('Das Passwort ist zu schwach (min. 6 Zeichen).');
+          throw AuthException('Das Passwort ist zu schwach (min. 6 Zeichen).');
         case 'invalid-email':
-          throw Exception('Ungültige E-Mail-Adresse.');
+          throw AuthException('Ungültige E-Mail-Adresse.');
         default:
-          throw Exception('Registrierung fehlgeschlagen: ${e.message}');
+          throw AuthException('Registrierung fehlgeschlagen: ${e.message}');
       }
+    } catch (e) {
+      throw AuthException(
+        'Registrierung fehlgeschlagen aus nicht bekannten gründen, versuchen sie es noch einmal',
+      );
     }
   }
 }

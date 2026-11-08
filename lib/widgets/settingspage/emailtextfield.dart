@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutterapp/constants/appkeys.dart';
-import 'package:flutterapp/constants/textconstants.dart';
 import 'package:flutterapp/widgets/settingspage/settingschangebutton.dart';
 import 'package:flutterapp/widgets/settingspage/settingstextfield.dart';
 

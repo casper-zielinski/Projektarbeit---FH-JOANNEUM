@@ -1,6 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterapp/constants/appcolors.dart';
 import 'package:flutterapp/constants/appkeys.dart';
+import 'package:flutterapp/service/Exceptions/authexception.dart';
 import 'package:flutterapp/service/authservice.dart';
 import 'package:flutterapp/widgets/modal/loginmodal.dart';
 import 'package:flutterapp/widgets/modal/modaltextfield.dart';
@@ -84,7 +86,40 @@ class _SignupmodalState extends State<Signupmodal> {
                 key: Appkeys.signUpButton,
                 buttonColor: AppColors.modalButtonDisabled,
                 onPressed: () async {
-                  AuthService().signUp(email: _emailController.text, password: _passwordController.text, username: _usernameController.text);
+                  try {
+                    User? user = await AuthService().signUp(
+                      email: _emailController.text,
+                      password: _passwordController.text,
+                      username: _usernameController.text,
+                    );
+                    if (context.mounted) {
+                      Navigator.pop(context);
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text(
+                            "Registrierung erfolgreich, Willkommen ${user?.displayName ?? "User"}",
+                          ),
+                        ),
+                      );
+                    }
+                  } on AuthException catch (error) {
+                    if (context.mounted) {
+                      String message = error.message;
+                      ScaffoldMessenger.of(
+                        context,
+                      ).showSnackBar(SnackBar(content: Text(message)));
+                    }
+                  } catch (error) {
+                    if (context.mounted) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text(
+                            "Registrierung fehlgeschlagen aus nicht bekannten gründen, versuchen sie es noch einmal",
+                          ),
+                        ),
+                      );
+                    }
+                  }
                 },
                 child: Text(
                   "Sign Up",
