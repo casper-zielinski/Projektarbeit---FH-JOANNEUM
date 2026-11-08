@@ -27,6 +27,7 @@ class _RootState extends State<Root> {
         return Scaffold(
           body: Row(
             mainAxisSize: MainAxisSize.max,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               Sidebar(onSelect: (apppage) => _goTo(apppage)),
               Expanded(
