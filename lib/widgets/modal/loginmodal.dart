@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutterapp/constants/appcolors.dart';
 import 'package:flutterapp/constants/appkeys.dart';
+import 'package:flutterapp/service/authservice.dart';
+import 'package:flutterapp/service/toastservice.dart';
 import 'package:flutterapp/widgets/modal/modaltextfield.dart';
 import 'package:flutterapp/widgets/modal/modaltextfieldpassword.dart';
 import 'package:flutterapp/widgets/modal/signupmodal.dart';
@@ -74,7 +76,19 @@ class _LoginmodalState extends State<Loginmodal> {
               RectangleTextbutton(
                 key: Appkeys.logInButton,
                 buttonColor: AppColors.modalButtonDisabled,
-                onPressed: () {},
+                onPressed: () async {
+                  await Toastservice().useToastWithUserInfo(
+                    context,
+                    "Log in successful, Welcome",
+                    "Log in failed for an unknown reason, please try again.",
+                    () async {
+                      return await AuthService().logIn(
+                        email: _emailController.text,
+                        password: _passwordController.text,
+                      );
+                    },
+                  );
+                },
                 child: Text(
                   "Log In",
                   style: TextStyle(

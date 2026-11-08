@@ -1,9 +1,8 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterapp/constants/appcolors.dart';
 import 'package:flutterapp/constants/appkeys.dart';
-import 'package:flutterapp/service/Exceptions/authexception.dart';
 import 'package:flutterapp/service/authservice.dart';
+import 'package:flutterapp/service/toastservice.dart';
 import 'package:flutterapp/widgets/modal/loginmodal.dart';
 import 'package:flutterapp/widgets/modal/modaltextfield.dart';
 import 'package:flutterapp/widgets/modal/modaltextfieldpassword.dart';
@@ -86,40 +85,18 @@ class _SignupmodalState extends State<Signupmodal> {
                 key: Appkeys.signUpButton,
                 buttonColor: AppColors.modalButtonDisabled,
                 onPressed: () async {
-                  try {
-                    User? user = await AuthService().signUp(
-                      email: _emailController.text,
-                      password: _passwordController.text,
-                      username: _usernameController.text,
-                    );
-                    if (context.mounted) {
-                      Navigator.pop(context);
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text(
-                            "Sign up successful, welcome ${user?.displayName ?? "User"}",
-                          ),
-                        ),
+                  await Toastservice().useToastWithUserInfo(
+                    context,
+                    "Sign up successful, Welcome",
+                    "Sign up failed for an unknown reason, please try again.",
+                    () async {
+                      return await AuthService().signUp(
+                        email: _emailController.text,
+                        password: _passwordController.text,
+                        username: _usernameController.text,
                       );
-                    }
-                  } on AuthException catch (error) {
-                    if (context.mounted) {
-                      String message = error.message;
-                      ScaffoldMessenger.of(
-                        context,
-                      ).showSnackBar(SnackBar(content: Text(message)));
-                    }
-                  } catch (error) {
-                    if (context.mounted) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          content: Text(
-                            "Sign up failed for an unknown reason, please try again.",
-                          ),
-                        ),
-                      );
-                    }
-                  }
+                    },
+                  );
                 },
                 child: Text(
                   "Sign Up",
