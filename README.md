@@ -99,4 +99,32 @@ Der Gesamtaufwand beträgt 125 Stunden.
 
 ## Status
 
-In Planung. Das Konzept liegt vor, die Umsetzung beginnt mit dem Auth Flow.
+### Bis zum 1. Fortschrittsbericht
+
+Fortschrittsbericht 1 auf Google Drive: [https://drive.google.com/file/d/1J2igD0yrk64JZhe01OrdZVwFiov8_Q_k/view?usp=sharing](https://drive.google.com/file/d/1J2igD0yrk64JZhe01OrdZVwFiov8_Q_k/view?usp=sharing)
+
+- Integrations Test zum Auth Flow
+- UI für die Settings Page und Side Bar sowie Footer (für Authentifizierte und Nicht-Authentifizierte Nutzer)
+- UI Modals um sich Anzumelden und Registrieren
+- Toast Benachrichtigungen bei Erfolgreichen und Nicht-Erfolgreichen Authentifizierungsmethoden
+- Authentifizierung via Firebase
+  - Sign Up
+  - Login
+  - Log Out
+  - Guest Login
+- Einfache Authorisierung von Eingelogten Usern, Nicht-Eingeloggten Usern sowie Guest Usern 
+
+#### Bilder
+
+![Einstellungsseite](./docs/images/settingspageonphone.png)
+
+> Ab. 1 Einstellungsseite
+
+<p align="center">
+
+![Login Modal](./docs/images/loginmodal.png)
+![Signup Modal](./docs/images/signupmodal.png)
+
+</p>
+
+> Ab. 2 u. 3 Die Modals für's Anmelden und Registrieren
