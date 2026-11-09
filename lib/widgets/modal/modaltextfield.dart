@@ -9,6 +9,7 @@ class ModalTextField extends StatelessWidget {
   final TextEditingController controller;
   final TextInputType? keyboardType;
   final ValueChanged<String>? onChanged;
+  final String? errorText;
 
   const ModalTextField({
     super.key,
@@ -17,6 +18,7 @@ class ModalTextField extends StatelessWidget {
     required this.controller,
     this.keyboardType,
     this.onChanged,
+    this.errorText,
   });
 
   @override
@@ -41,6 +43,14 @@ class ModalTextField extends StatelessWidget {
           style: const TextStyle(fontSize: 14, color: AppColors.modalText),
           decoration: InputDecoration(
             hintText: hintText,
+            errorText: errorText,
+            errorStyle: const TextStyle(color: AppColors.error),
+            errorBorder: const OutlineInputBorder(
+              borderSide: BorderSide(color: AppColors.error),
+            ),
+            focusedErrorBorder: const OutlineInputBorder(
+              borderSide: BorderSide(color: AppColors.error),
+            ),
             hintStyle: const TextStyle(color: AppColors.modalHint),
             filled: true,
             fillColor: AppColors.modalBackground,

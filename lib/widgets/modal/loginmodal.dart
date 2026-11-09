@@ -26,6 +26,13 @@ class _LoginmodalState extends State<Loginmodal> {
     super.dispose();
   }
 
+  bool get _emailValid => _emailController.text.contains('@');
+  bool get _passwordValid =>
+      _passwordController.text.length > 8 &&
+      RegExp(r'\d').hasMatch(_passwordController.text) &&
+      RegExp(r'[a-z]').hasMatch(_passwordController.text);
+  bool get _formValid => _emailValid && _passwordValid;
+
   @override
   Widget build(BuildContext context) {
     return Dialog(
@@ -66,34 +73,46 @@ class _LoginmodalState extends State<Loginmodal> {
                 label: 'Email',
                 hintText: 'mail@site.com',
                 controller: _emailController,
+                onChanged: (_) => setState(() {}),
+                errorText: _emailController.text.isEmpty || _emailValid
+                    ? null
+                    : 'Enter valid email address',
               ),
               ModalTextFieldPassword(
                 key: Appkeys.passwordTextField,
                 label: 'Password',
                 hintText: 'Password',
                 controller: _passwordController,
+                onChanged: (_) => setState(() {}),
+                errorText: _passwordController.text.isEmpty || _passwordValid
+                    ? null
+                    : 'Must be more than 8 characters, including\nAt least one number\nAt least one lowercase letter',
               ),
               RectangleTextbutton(
                 key: Appkeys.logInButton,
-                buttonColor: AppColors.modalButtonDisabled,
-                onPressed: () async {
-                  await Toastservice().useToastWithUserInfo(
-                    context,
-                    "Log in successful, Welcome",
-                    "Log in failed for an unknown reason, please try again.",
-                    () async {
-                      return await AuthService().logIn(
-                        email: _emailController.text,
-                        password: _passwordController.text,
-                      );
-                    },
-                  );
-                },
+                buttonColor: _formValid
+                    ? AppColors.info
+                    : AppColors.modalButtonDisabled,
+                onPressed: !_formValid
+                    ? null
+                    : () async {
+                        await Toastservice().useToastWithUserInfo(
+                          context,
+                          "Log in successful, Welcome",
+                          "Log in failed for an unknown reason, please try again.",
+                          () async {
+                            return await AuthService().logIn(
+                              email: _emailController.text,
+                              password: _passwordController.text,
+                            );
+                          },
+                        );
+                      },
                 child: Text(
                   "Log In",
                   style: TextStyle(
                     fontWeight: FontWeight.w600,
-                    color: AppColors.textSecondary,
+                    color: _formValid ? Colors.black : AppColors.textSecondary,
                   ),
                 ),
               ),

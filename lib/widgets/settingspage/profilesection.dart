@@ -105,7 +105,9 @@ class _ProfilesectionState extends State<Profilesection> {
           ),
           RectangleTextbutton(
             key: Appkeys.logoutButton,
-            buttonColor: Colors.grey,
+            buttonColor: Authorized.isAuthenticated
+                ? AppColors.info
+                : Colors.grey,
             onPressed: () async {
               await Toastservice().useToast(
                 context,

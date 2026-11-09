@@ -8,6 +8,7 @@ class ModalTextFieldPassword extends StatefulWidget {
   final String hintText;
   final TextEditingController controller;
   final ValueChanged<String>? onChanged;
+  final String? errorText;
 
   const ModalTextFieldPassword({
     super.key,
@@ -15,6 +16,7 @@ class ModalTextFieldPassword extends StatefulWidget {
     required this.hintText,
     required this.controller,
     this.onChanged,
+    this.errorText,
   });
 
   @override
@@ -68,10 +70,18 @@ class _ModalTextFieldPasswordState extends State<ModalTextFieldPassword> {
                       borderSide: BorderSide(color: AppColors.modalBorder),
                     ),
                     enabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: AppColors.modalBorder),
+                      borderSide: BorderSide(
+                        color: widget.errorText != null
+                            ? AppColors.error
+                            : AppColors.modalBorder,
+                      ),
                     ),
                     focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: AppColors.info),
+                      borderSide: BorderSide(
+                        color: widget.errorText != null
+                            ? AppColors.error
+                            : AppColors.info,
+                      ),
                     ),
                   ),
                 ),
@@ -87,6 +97,20 @@ class _ModalTextFieldPasswordState extends State<ModalTextFieldPassword> {
             ],
           ),
         ),
+        if (widget.errorText != null)
+          Padding(
+            padding: const EdgeInsets.only(top: 8),
+            child: SizedBox(
+              width: double.infinity,
+              child: Text(
+                widget.errorText!,
+                style: const TextStyle(
+                  fontSize: 12,
+                  color: AppColors.error,
+                ),
+              ),
+            ),
+          ),
       ],
     );
   }

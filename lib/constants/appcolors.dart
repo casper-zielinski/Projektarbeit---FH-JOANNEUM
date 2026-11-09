@@ -27,6 +27,7 @@ class AppColors {
   static const Color modalHint = Color(0xFF8A929E);
   static const Color modalLabel = Color(0xFFA6ADBB);
   static const Color info = Color(0xFF00BAFE);
+  static const Color error = Color(0xFFFF637E);
   static const Color modalButtonDisabled = Color(0xFF2A323C);
   static const Color modalButtonDisabledText = Color(0xFF5B6470);
   static const Color modalButtonFilled = Color(0xFF252D38);

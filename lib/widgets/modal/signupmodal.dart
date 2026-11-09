@@ -28,6 +28,18 @@ class _SignupmodalState extends State<Signupmodal> {
     super.dispose();
   }
 
+  bool get _usernameValid {
+    final length = _usernameController.text.trim().length;
+    return length >= 5 && length <= 25;
+  }
+
+  bool get _emailValid => _emailController.text.contains('@');
+  bool get _passwordValid =>
+      _passwordController.text.length > 8 &&
+      RegExp(r'\d').hasMatch(_passwordController.text) &&
+      RegExp(r'[a-z]').hasMatch(_passwordController.text);
+  bool get _formValid => _usernameValid && _emailValid && _passwordValid;
+
   @override
   Widget build(BuildContext context) {
     return Dialog(
@@ -68,41 +80,57 @@ class _SignupmodalState extends State<Signupmodal> {
                 label: 'Username',
                 hintText: 'Username',
                 controller: _usernameController,
+                onChanged: (_) => setState(() {}),
+                errorText: _usernameController.text.isEmpty || _usernameValid
+                    ? null
+                    : 'Must be 5-25 characters (not just spaces)',
               ),
               ModalTextField(
                 key: Appkeys.emailTextField,
                 label: 'Email',
                 hintText: 'mail@site.com',
                 controller: _emailController,
+                onChanged: (_) => setState(() {}),
+                errorText: _emailController.text.isEmpty || _emailValid
+                    ? null
+                    : 'Enter valid email address',
               ),
               ModalTextFieldPassword(
                 key: Appkeys.passwordTextField,
                 label: 'Password',
                 hintText: 'Password',
                 controller: _passwordController,
+                onChanged: (_) => setState(() {}),
+                errorText: _passwordController.text.isEmpty || _passwordValid
+                    ? null
+                    : 'Must be more than 8 characters, including\nAt least one number\nAt least one lowercase letter',
               ),
               RectangleTextbutton(
                 key: Appkeys.signUpButton,
-                buttonColor: AppColors.modalButtonDisabled,
-                onPressed: () async {
-                  await Toastservice().useToastWithUserInfo(
-                    context,
-                    "Sign up successful, Welcome",
-                    "Sign up failed for an unknown reason, please try again.",
-                    () async {
-                      return await AuthService().signUp(
-                        email: _emailController.text,
-                        password: _passwordController.text,
-                        username: _usernameController.text,
-                      );
-                    },
-                  );
-                },
+                buttonColor: _formValid
+                    ? AppColors.info
+                    : AppColors.modalButtonDisabled,
+                onPressed: !_formValid
+                    ? null
+                    : () async {
+                        await Toastservice().useToastWithUserInfo(
+                          context,
+                          "Sign up successful, Welcome",
+                          "Sign up failed for an unknown reason, please try again.",
+                          () async {
+                            return await AuthService().signUp(
+                              email: _emailController.text,
+                              password: _passwordController.text,
+                              username: _usernameController.text,
+                            );
+                          },
+                        );
+                      },
                 child: Text(
                   "Sign Up",
                   style: TextStyle(
                     fontWeight: FontWeight.w600,
-                    color: AppColors.textSecondary,
+                    color: _formValid ? Colors.black : AppColors.textSecondary,
                   ),
                 ),
               ),
