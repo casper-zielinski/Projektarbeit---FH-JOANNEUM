@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutterapp/constants/appkeys.dart';
+import 'package:flutterapp/service/dto/authorized.dart';
 import 'package:flutterapp/widgets/settingspage/settingschangebutton.dart';
 import 'package:flutterapp/widgets/settingspage/settingstextfield.dart';
 
@@ -53,7 +54,11 @@ class _EmailtextfieldState extends State<Emailtextfield> {
           controller: _emailController,
           enabled: _change,
         ),
-        Settingschangebutton(change: _change, onPressed: _changeText),
+        Settingschangebutton(
+          change: _change,
+          onPressed: _changeText,
+          enabled: Authorized.allowedToEdit(),
+        ),
       ],
     );
   }

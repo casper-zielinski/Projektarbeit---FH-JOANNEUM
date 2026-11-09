@@ -4,6 +4,7 @@ import 'package:flutterapp/constants/appcolors.dart';
 import 'package:flutterapp/constants/appkeys.dart';
 import 'package:flutterapp/constants/textconstants.dart';
 import 'package:flutterapp/service/authservice.dart';
+import 'package:flutterapp/service/dto/authorized.dart';
 import 'package:flutterapp/service/toastservice.dart';
 import 'package:flutterapp/widgets/rectangletextbutton.dart';
 import 'package:flutterapp/widgets/settingspage/settingscontainer.dart';
@@ -85,16 +86,22 @@ class _ProfilesectionState extends State<Profilesection> {
               ),
             ],
           ),
-          Settingstextfield(label: "Username", controller: _usernameController),
+          Settingstextfield(
+            label: "Username",
+            controller: _usernameController,
+            enabled: Authorized.allowedToEdit(),
+          ),
           Settingstextfield(
             key: Appkeys.displayName,
             label: "Display Name",
             controller: _displayNameController,
+            enabled: Authorized.allowedToEdit(),
           ),
           Settingstextfield(
             label: "Bio",
             controller: _bioController,
             minLines: 4,
+            enabled: Authorized.allowedToEdit(),
           ),
           RectangleTextbutton(
             key: Appkeys.logoutButton,

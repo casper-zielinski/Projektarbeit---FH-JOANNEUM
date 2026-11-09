@@ -7,12 +7,13 @@ class Toastservice {
     BuildContext context,
     String successmessage,
     String defaultErrorMessage,
-    Future<User?> Function() function,
-  ) async {
+    Future<User?> Function() function, {
+    bool? dontCloseContext,
+  }) async {
     try {
       User? user = await function();
       if (context.mounted) {
-        Navigator.pop(context);
+        if (dontCloseContext == null) Navigator.pop(context);
         _showToast(context, "$successmessage ${user?.displayName ?? "User"}");
       }
     } on AuthException catch (error) {
@@ -39,8 +40,8 @@ class Toastservice {
   }
 
   void _showToast(BuildContext context, String message) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(message)),
-    );
+    ScaffoldMessenger.of(
+      context,
+    ).showSnackBar(SnackBar(content: Text(message)));
   }
 }

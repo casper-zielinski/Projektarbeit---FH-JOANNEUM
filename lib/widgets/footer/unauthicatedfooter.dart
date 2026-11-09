@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutterapp/constants/appcolors.dart';
 import 'package:flutterapp/constants/appkeys.dart';
+import 'package:flutterapp/service/authservice.dart';
+import 'package:flutterapp/service/toastservice.dart';
 import 'package:flutterapp/widgets/modal/loginmodal.dart';
 import 'package:flutterapp/widgets/modal/signupmodal.dart';
 import 'package:flutterapp/widgets/rectangletextbutton.dart';
@@ -74,7 +76,17 @@ class Unauthicatedfooter extends StatelessWidget {
                   "Login as Guest",
                   style: TextStyle(color: AppColors.textOnAccent),
                 ),
-                onPressed: () {},
+                onPressed: () async {
+                  await Toastservice().useToastWithUserInfo(
+                    context,
+                    "Guest Login successful, Welcome",
+                    "Guest Login failed for an unknown reason, please try again.",
+                    () async {
+                      return await AuthService().logInAsGuest();
+                    },
+                    dontCloseContext: true,
+                  );
+                },
               ),
             ],
           ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutterapp/service/dto/authorized.dart';
 import 'package:flutterapp/widgets/settingspage/eyebutton.dart';
 import 'package:flutterapp/widgets/settingspage/settingschangebutton.dart';
 import 'package:flutterapp/widgets/settingspage/settingstextfield.dart';
@@ -70,7 +71,11 @@ class _PasswordtextfieldState extends State<Passwordtextfield> {
           ],
         ),
 
-        Settingschangebutton(change: _change, onPressed: _changeText),
+        Settingschangebutton(
+          change: _change,
+          onPressed: _changeText,
+          enabled: Authorized.allowedToEdit(),
+        ),
       ],
     );
   }

@@ -1,10 +1,14 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutterapp/service/Exceptions/authexception.dart';
+import 'package:flutterapp/service/dto/authorized.dart';
 
 class AuthService {
   AuthService({FirebaseAuth? auth}) : _auth = auth ?? FirebaseAuth.instance;
 
   final FirebaseAuth _auth;
+
+  static final String guestUserEmail = "guest123@gmail.com";
+  static final String guestUserPassword = "MeinPasswort1!";
 
   Stream<User?> get userChanges => _auth.userChanges();
 
@@ -29,6 +33,7 @@ class AuthService {
       await user.updateDisplayName(username);
       await user.reload();
 
+      Authorized.authenticate();
       return _auth.currentUser;
     } on FirebaseAuthException catch (e) {
       switch (e.code) {
@@ -66,6 +71,7 @@ class AuthService {
         );
       }
 
+      Authorized.authenticate();
       return user;
     } on FirebaseAuthException catch (e) {
       switch (e.code) {
@@ -99,13 +105,48 @@ class AuthService {
     }
   }
 
+  Future<User?> logInAsGuest() async {
+    try {
+      User? guestUser = await logIn(
+        email: guestUserEmail,
+        password: guestUserPassword,
+      );
+      Authorized.authenticate();
+      Authorized.isGuest = true;
+      return guestUser;
+    } on AuthException catch (e) {
+      switch (e.message) {
+        case 'Network error. Please check your internet connection.':
+        case 'Email/password login is currently not available.':
+        case 'Too many failed attempts. Please wait a moment and try again.':
+          rethrow;
+        case 'Login failed for an unknown reason, please try again.':
+          throw AuthException(
+            'Guest Login failed for an unknown reason, please try again.',
+          );
+        default:
+          throw AuthException(
+            'Guest Login failed for an unknown reason, please try again.',
+          );
+      }
+    } catch (e) {
+      throw AuthException(
+        'Guest Login failed for an unknown reason, please try again.',
+      );
+    }
+  }
+
   Future<void> signOut() async {
     try {
       await _auth.signOut();
+      Authorized.isAuthenticated = false;
+      Authorized.isGuest = false;
     } on FirebaseAuthException catch (e) {
       throw AuthException('Logout failed: ${e.message}');
     } catch (e) {
-      throw AuthException('Logout failed for an unknown reason, please try again.');
+      throw AuthException(
+        'Logout failed for an unknown reason, please try again.',
+      );
     }
   }
 }
