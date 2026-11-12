@@ -30,7 +30,7 @@ class _ProfilesectionState extends State<Profilesection> {
       text: widget.user?.displayName ?? Textconstants.usernamePlaceholder,
     );
     _displayNameController = TextEditingController(
-      text: widget.user?.displayName ?? Textconstants.usernamePlaceholder,
+      text: widget.user?.displayName ?? Textconstants.displaynamePlaceholder,
     );
     _bioController = TextEditingController();
   }
@@ -50,7 +50,7 @@ class _ProfilesectionState extends State<Profilesection> {
       _usernameController.text =
           widget.user?.displayName ?? Textconstants.usernamePlaceholder;
       _displayNameController.text =
-          widget.user?.displayName ?? Textconstants.usernamePlaceholder;
+          widget.user?.displayName ?? Textconstants.displaynamePlaceholder;
     }
   }
 

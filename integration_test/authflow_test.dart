@@ -1,7 +1,13 @@
+import 'dart:io';
+
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutterapp/constants/appkeys.dart';
 import 'package:flutterapp/constants/textconstants.dart';
+import 'package:flutterapp/firebase_options.dart';
 import 'package:flutterapp/main.dart';
 import 'package:integration_test/integration_test.dart';
 
@@ -9,6 +15,21 @@ import 'util.dart';
 
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
+
+  setUpAll(() async {
+    // 1. Firebase einmalig im Test initialisieren
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
+
+    final host = (!kIsWeb && Platform.isAndroid) ? '10.0.2.2' : 'localhost';
+    await FirebaseAuth.instance.useAuthEmulator(host, 9099);
+  });
+
+  setUp(() async {
+    // Vor jedem einzelnen Test ausloggen
+    await FirebaseAuth.instance.signOut();
+  });
 
   group('end-to-end test', () {
     testWidgets(
@@ -62,6 +83,7 @@ void main() {
       expect(find.byKey(Appkeys.unauthenticatedFooter), findsOneWidget);
 
       await tester.tap(find.byKey(Appkeys.openSignUpModalButton));
+      await tester.pumpAndSettle();
 
       await fillAndSubmitSignUp(
         tester,
@@ -103,6 +125,7 @@ void main() {
       expect(find.byKey(Appkeys.unauthenticatedFooter), findsOneWidget);
 
       await tester.tap(find.byKey(Appkeys.openSignUpModalButton));
+      await tester.pumpAndSettle();
       await fillAndSubmitSignUp(
         tester,
         username: username,

@@ -31,7 +31,7 @@ class Profilecontainer extends StatelessWidget {
             ),
           ),
           Text(
-            user?.displayName ?? Textconstants.displaynamePlaceholder,
+            user?.displayName ?? Textconstants.usernamePlaceholder,
             style: TextStyle(
               color: AppColors.textSecondary,
               fontWeight: FontWeight.w400,
