@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutterapp/constants/AppKeys.dart';
 import 'package:flutterapp/constants/appcolors.dart';
+import 'package:flutterapp/service/dto/authorized.dart';
+import 'package:flutterapp/widgets/modal/guestrestrictionmodal.dart';
+import 'package:flutterapp/widgets/modal/restrictionmodal.dart';
 import 'package:flutterapp/widgets/postfeed/postactionbutton.dart';
 
 class Singlepost extends StatelessWidget {
@@ -53,6 +56,21 @@ class Singlepost extends StatelessWidget {
               PostActionButton(
                 icon: Icons.chat_bubble,
                 key: Appkeys.commentButton,
+                onPressed: () async {
+                  if (Authorized.isGuest) {
+                    showDialog(
+                      context: context,
+                      barrierColor: AppColors.modalBarrier,
+                      builder: (context) => const Restrictionmodal(),
+                    );
+                  } else if (!Authorized.isAuthenticated) {
+                    showDialog(
+                      context: context,
+                      barrierColor: AppColors.modalBarrier,
+                      builder: (context) => const Guestrestrictionmodal(),
+                    );
+                  } else {}
+                },
               ),
               PostActionButton(icon: Icons.visibility),
               PostActionButton(icon: Icons.bookmark_add),
