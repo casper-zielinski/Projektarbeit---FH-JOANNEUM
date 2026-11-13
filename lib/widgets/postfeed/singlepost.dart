@@ -49,7 +49,25 @@ class Singlepost extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   const Text("3"),
-                  PostActionButton(icon: Icons.thumb_up),
+                  PostActionButton(
+                    icon: Icons.thumb_up,
+                    key: Appkeys.likeButton,
+                    onPressed: () async {
+                      if (Authorized.isGuest) {
+                        showDialog(
+                          context: context,
+                          barrierColor: AppColors.modalBarrier,
+                          builder: (context) => const Guestrestrictionmodal(),
+                        );
+                      } else if (!Authorized.isAuthenticated) {
+                        showDialog(
+                          context: context,
+                          barrierColor: AppColors.modalBarrier,
+                          builder: (context) => const Guestrestrictionmodal(),
+                        );
+                      } else {}
+                    },
+                  ),
                 ],
               ),
               PostActionButton(icon: Icons.repeat),
@@ -61,13 +79,13 @@ class Singlepost extends StatelessWidget {
                     showDialog(
                       context: context,
                       barrierColor: AppColors.modalBarrier,
-                      builder: (context) => const Restrictionmodal(),
+                      builder: (context) => const Guestrestrictionmodal(),
                     );
                   } else if (!Authorized.isAuthenticated) {
                     showDialog(
                       context: context,
                       barrierColor: AppColors.modalBarrier,
-                      builder: (context) => const Guestrestrictionmodal(),
+                      builder: (context) => const Restrictionmodal(),
                     );
                   } else {}
                 },
