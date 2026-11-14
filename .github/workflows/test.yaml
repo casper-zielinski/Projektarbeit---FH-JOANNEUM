@@ -1,0 +1,60 @@
+name: Integration Tests
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  integration-test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+
+    steps:
+      - uses: actions/checkout@v4
+
+      # Firebase-Emulatoren brauchen Java + Node
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - run: npm install -g firebase-tools
+
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          cache: true
+
+      - name: Create Firebase config files from secrets
+        env:
+          FIREBASE_OPTIONS_DART_BASE64: ${{ secrets.FIREBASE_OPTIONS_DART_BASE64 }}
+          GOOGLE_SERVICES_JSON_BASE64: ${{ secrets.GOOGLE_SERVICES_JSON_BASE64 }}
+        run: |
+          if [ -z "$FIREBASE_OPTIONS_DART_BASE64" ] || [ -z "$GOOGLE_SERVICES_JSON_BASE64" ]; then
+            echo "::error::Secret FIREBASE_OPTIONS_DART_BASE64 oder GOOGLE_SERVICES_JSON_BASE64 fehlt (bei Pull Requests aus Forks sind Secrets nicht verfügbar)."
+            exit 1
+          fi
+          echo "$FIREBASE_OPTIONS_DART_BASE64" | base64 -d > lib/firebase_options.dart
+          echo "$GOOGLE_SERVICES_JSON_BASE64" | base64 -d > android/app/google-services.json
+
+      - run: flutter pub get
+
+      # Hardware-Beschleunigung für den Android-Emulator (sonst extrem langsam)
+      - name: Enable KVM
+        run: |
+          echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
+          sudo udevadm control --reload-rules
+          sudo udevadm trigger --name-match=kvm
+
+      - name: Run integration tests on Android emulator
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 34
+          arch: x86_64
+          target: google_apis
+          script: firebase emulators:exec --only auth --project chat-ai-3c871 "flutter test integration_test --dart-define=EMULATOR_HOST=10.0.2.2"
