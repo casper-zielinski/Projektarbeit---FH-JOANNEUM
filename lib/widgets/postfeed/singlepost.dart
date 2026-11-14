@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutterapp/constants/AppKeys.dart';
+import 'package:flutterapp/constants/appkeys.dart';
 import 'package:flutterapp/constants/appcolors.dart';
 import 'package:flutterapp/service/dto/authorized.dart';
+import 'package:flutterapp/widgets/modal/commentmodal.dart';
 import 'package:flutterapp/widgets/modal/guestrestrictionmodal.dart';
 import 'package:flutterapp/widgets/modal/restrictionmodal.dart';
 import 'package:flutterapp/widgets/postfeed/postactionbutton.dart';
@@ -87,7 +88,13 @@ class Singlepost extends StatelessWidget {
                       barrierColor: AppColors.modalBarrier,
                       builder: (context) => const Restrictionmodal(),
                     );
-                  } else {}
+                  } else {
+                    showDialog(
+                      context: context,
+                      barrierColor: AppColors.modalBarrier,
+                      builder: (context) => const Commentmodal(),
+                    );
+                  }
                 },
               ),
               PostActionButton(icon: Icons.visibility),

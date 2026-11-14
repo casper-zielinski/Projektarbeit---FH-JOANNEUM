@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutterapp/constants/AppKeys.dart';
+import 'package:flutterapp/constants/appkeys.dart';
 import 'package:flutterapp/constants/appcolors.dart';
 import 'package:flutterapp/constants/apppage.dart';
 import 'package:flutterapp/widgets/profilecontainer.dart';

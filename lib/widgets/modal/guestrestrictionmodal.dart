@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutterapp/constants/AppKeys.dart';
+import 'package:flutterapp/constants/appkeys.dart';
 import 'package:flutterapp/constants/appcolors.dart';
 import 'package:flutterapp/widgets/modal/loginmodal.dart';
 import 'package:flutterapp/widgets/modal/signupmodal.dart';

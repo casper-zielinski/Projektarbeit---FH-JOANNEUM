@@ -70,9 +70,51 @@ flutter run
 
 Jeder Flow wird testgetrieben entwickelt: Zuerst entsteht der Integrationstest, danach die Implementierung.
 
+Die Integrationstests laufen gegen den **Firebase Auth Emulator** (Port 9099), nicht gegen das echte Firebase-Projekt. Zusätzlich nötig: Firebase CLI (`firebase-tools`) und Java (für den Emulator).
+
+### 1. Auth Emulator starten
+
+In einem eigenen Terminal im Projektordner (Konfiguration steht in `firebase.json`):
+
 ```bash
-flutter test integration_test
+firebase emulators:start --only auth
 ```
+
+Der Emulator startet leer, der Gast-Account wird vom Test selbst angelegt. Emulator-UI: http://127.0.0.1:4000
+
+### 2. Tests ausführen
+
+**Echtes Android-Gerät (USB):** Die Gerätenummer zeigt `flutter devices`.
+
+```bash
+adb reverse tcp:9099 tcp:9099
+flutter test integration_test/authflow_test.dart -d <geraete-id>
+```
+
+`adb reverse` leitet Port 9099 des Handys an den PC weiter und muss nach jedem erneuten Anstecken des Geräts wiederholt werden. Unter Android verwendet der Test dafür automatisch den Host `127.0.0.2`: `firebase_core` schreibt `localhost` und `127.0.0.1` sonst auf `10.0.2.2` um, das es nur im Android-Emulator gibt. Zudem erlaubt das Debug-Manifest (`android/app/src/debug/AndroidManifest.xml`) unverschlüsseltes HTTP, weil der Emulator kein HTTPS spricht.
+
+**Android-Emulator (AVD):** Entweder ebenfalls `adb reverse` (wie oben) oder den Host überschreiben, z. B.
+
+```bash
+flutter test integration_test/authflow_test.dart -d <emulator-id> --dart-define=EMULATOR_HOST=10.0.2.2
+```
+
+**Alle Integrationstests:**
+
+```bash
+flutter test integration_test -d <geraete-id>
+```
+
+Der Erststart dauert wegen des Gradle-Builds mehrere Minuten, danach läuft die Auth-Suite in unter einer Minute.
+
+### Fehlersuche
+
+| Symptom | Ursache |
+| --- | --- |
+| Sign-up/Login-Tests schlagen fehl, andere laufen | Emulator nicht erreichbar: läuft `firebase emulators:start`? `adb reverse --list` prüfen |
+| `network-request-failed` | Port-Weiterleitung fehlt oder Host wird umgeschrieben (nicht `localhost`/`127.0.0.1` auf echtem Gerät verwenden) |
+| `Cleartext HTTP traffic ... not permitted` | Debug-Manifest ohne `usesCleartextTraffic="true"` |
+| `Unable to find suitable Visual Studio toolchain` | Windows-Desktop-Target ohne Visual Studio, stattdessen Android-Gerät verwenden |
 
 Geplante Testabdeckung:
 

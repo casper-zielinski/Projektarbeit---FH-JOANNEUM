@@ -9,6 +9,7 @@ import 'package:flutterapp/constants/appkeys.dart';
 import 'package:flutterapp/constants/textconstants.dart';
 import 'package:flutterapp/firebase_options.dart';
 import 'package:flutterapp/main.dart';
+import 'package:flutterapp/service/authservice.dart';
 import 'package:integration_test/integration_test.dart';
 
 import 'util.dart';
@@ -16,19 +17,35 @@ import 'util.dart';
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
 
+  const hostOverride = String.fromEnvironment('EMULATOR_HOST');
+  final emulatorHost = hostOverride.isNotEmpty
+      ? hostOverride
+      : (!kIsWeb && Platform.isAndroid ? '127.0.0.2' : '127.0.0.1');
+
   setUpAll(() async {
-    // 1. Firebase einmalig im Test initialisieren
     await Firebase.initializeApp(
       options: DefaultFirebaseOptions.currentPlatform,
     );
 
-    final host = (!kIsWeb && Platform.isAndroid) ? '10.0.2.2' : 'localhost';
-    await FirebaseAuth.instance.useAuthEmulator(host, 9099);
+    await FirebaseAuth.instance.useAuthEmulator(emulatorHost, 9099);
+
+    // The emulator starts empty, so the guest account used by
+    // "Login as Guest" has to be created first.
+    try {
+      await FirebaseAuth.instance.createUserWithEmailAndPassword(
+        email: AuthService.guestUserEmail,
+        password: AuthService.guestUserPassword,
+      );
+    } on FirebaseAuthException catch (e) {
+      if (e.code != 'email-already-in-use') rethrow;
+    }
+    await FirebaseAuth.instance.signOut();
   });
 
   setUp(() async {
-    // Vor jedem einzelnen Test ausloggen
-    await FirebaseAuth.instance.signOut();
+    // AuthService.signOut also resets the static Authorized flags, so a failed
+    // test cannot leak its (guest/authenticated) state into the next one.
+    await AuthService().signOut();
   });
 
   group('end-to-end test', () {
@@ -74,10 +91,10 @@ void main() {
     );
 
     testWidgets("Unauthenticated User Sign's Up and Logs out", (tester) async {
-      final String username = "John";
+      final String username = "JohnDoe";
       final String email =
           "john.${DateTime.now().millisecondsSinceEpoch}@example.com";
-      final String password = "secret1!";
+      final String password = "secret1234!";
 
       await tester.pumpWidget(const MyApp());
       expect(find.byKey(Appkeys.unauthenticatedFooter), findsOneWidget);
@@ -97,18 +114,8 @@ void main() {
       await tester.pumpAndSettle();
 
       expect(find.byKey(Appkeys.settingsPage), findsOneWidget);
-      expect(find.text(username), findsOneWidget);
-      expect(find.text(email), findsOneWidget);
-
-      final Text usernameTextWidget = tester.widget<Text>(
-        find.byKey(Appkeys.displayName),
-      );
-      final Text emailTextWidget = tester.widget<Text>(
-        find.byKey(Appkeys.email),
-      );
-
-      expect(usernameTextWidget.data, username);
-      expect(emailTextWidget.data, email);
+      expect(settingsFieldText(tester, Appkeys.displayName), username);
+      expect(settingsFieldText(tester, Appkeys.email), email);
 
       await logOut(tester);
     });
@@ -116,10 +123,10 @@ void main() {
     testWidgets('User signs up, logs out, logs in again and logs out', (
       tester,
     ) async {
-      final String username = 'Jane';
+      final String username = 'JaneDoe';
       final String email =
           'jane.${DateTime.now().millisecondsSinceEpoch}@example.com';
-      final String password = 'secret1!';
+      final String password = 'secret1234!';
 
       await tester.pumpWidget(const MyApp());
       expect(find.byKey(Appkeys.unauthenticatedFooter), findsOneWidget);
@@ -147,11 +154,8 @@ void main() {
       await tester.tap(find.byKey(Appkeys.settingsButton));
       await tester.pumpAndSettle();
       expect(find.byKey(Appkeys.settingsPage), findsOneWidget);
-      expect(
-        tester.widget<Text>(find.byKey(Appkeys.displayName)).data,
-        username,
-      );
-      expect(tester.widget<Text>(find.byKey(Appkeys.email)).data, email);
+      expect(settingsFieldText(tester, Appkeys.displayName), username);
+      expect(settingsFieldText(tester, Appkeys.email), email);
 
       await logOut(tester);
     });
@@ -165,7 +169,7 @@ void main() {
       await tester.pumpAndSettle();
       expect(find.byKey(Appkeys.loginModal), findsOneWidget);
 
-      await tester.enterText(find.byKey(Appkeys.passwordTextField), 'secret1!');
+      await tester.enterText(find.byKey(Appkeys.passwordTextField), 'secret1234!');
       await tester.pump();
 
       expect(isObscured(tester), isTrue);
@@ -183,10 +187,10 @@ void main() {
       'Comment button: unauthenticated users receive sign-up-or-login modal, '
       'authenticated users receive comment modal',
       (tester) async {
-        final String username = 'Carl';
+        final String username = 'CarlDoe';
         final String email =
             'carl.${DateTime.now().millisecondsSinceEpoch}@example.com';
-        final String password = 'secret1!';
+        final String password = 'secret1234!';
 
         await tester.pumpWidget(const MyApp());
         expect(find.byKey(Appkeys.unauthenticatedFooter), findsOneWidget);
@@ -260,7 +264,11 @@ void main() {
       expect(find.byKey(Appkeys.unauthenticatedFooter), findsOneWidget);
 
       await tester.tap(find.byKey(Appkeys.loginAsGuestButton));
-      await tester.pumpAndSettle();
+      await pumpUntil(
+        tester,
+        () => find.byKey(Appkeys.unauthenticatedFooter).evaluate().isEmpty,
+        reason: 'guest login to finish',
+      );
       expect(find.byKey(Appkeys.unauthenticatedFooter), findsNothing);
       expect(find.byKey(Appkeys.homePage), findsOneWidget);
 

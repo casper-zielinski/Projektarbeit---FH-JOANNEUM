@@ -25,6 +25,7 @@ class Restrictionmodal extends StatelessWidget {
             spacing: 12,
             children: [
               RectangleTextbutton(
+                key: Appkeys.signUpModalButtonsignupOrlogin,
                 buttonColor: AppColors.info,
                 size: Size(120, 32),
                 onPressed: () {
@@ -91,6 +92,5 @@ class Restrictionmodal extends StatelessWidget {
         ),
       ),
     );
-    ;
   }
 }
