@@ -1,0 +1,3 @@
+enum Postfeedpage {
+  forYou, following
+}
