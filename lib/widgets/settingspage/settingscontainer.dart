@@ -29,12 +29,15 @@ class Settingscontainer extends StatelessWidget {
             spacing: 12,
             children: [
               icon,
-              Text(
-                title,
-                style: TextStyle(
-                  color: AppColors.textPrimary,
-                  fontSize: 20,
-                  fontWeight: FontWeight.w800,
+              Expanded(
+                child: Text(
+                  title,
+                  style: TextStyle(
+                    color: AppColors.textPrimary,
+                    fontSize: 20,
+                    fontWeight: FontWeight.w800,
+                    overflow: TextOverflow.ellipsis,
+                  ),
                 ),
               ),
             ],

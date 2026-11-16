@@ -74,13 +74,22 @@ class _ProfilesectionState extends State<Profilesection> {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    "Profile Picture",
-                    style: TextStyle(fontWeight: FontWeight.w600),
+                  SizedBox(
+                    width: 120,
+                    child: Text(
+                      "Profile Picture",
+                      style: TextStyle(fontWeight: FontWeight.w600),
+                    ),
                   ),
-                  Text(
-                    "Upload a Profile Picture",
-                    style: TextStyle(color: AppColors.textSecondary),
+                  SizedBox(
+                    width: 120,
+                    child: Text(
+                      "Upload a Profile Picture",
+                      style: TextStyle(
+                        color: AppColors.textSecondary,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
                   ),
                 ],
               ),

@@ -36,9 +36,10 @@ class Unauthicatedfooter extends StatelessWidget {
             "People on ChatAI are the first to know",
             style: TextStyle(color: Colors.white),
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
+          Wrap(
+            alignment: WrapAlignment.center,
             spacing: 12,
+            runSpacing: 8,
             children: [
               RectangleTextbutton(
                 key: Appkeys.openLoginModalButton,

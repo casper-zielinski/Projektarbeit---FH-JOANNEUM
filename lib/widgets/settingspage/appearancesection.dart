@@ -14,9 +14,8 @@ class AppearanceSection extends StatelessWidget {
         mainAxisSize: MainAxisSize.max,
         spacing: 16,
         children: [
-          Row(
-            mainAxisSize: MainAxisSize.max,
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
+          Wrap(
+            alignment: WrapAlignment.spaceAround,
             children: [
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
