@@ -2,6 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutterapp/constants/appkeys.dart';
 
+Future<void> toSettingsPage(WidgetTester tester) async {
+  final settingsButton = find.byKey(Appkeys.settingsButton);
+  await tester.ensureVisible(settingsButton);
+  await tester.pump();
+  await tester.tap(find.byKey(Appkeys.settingsButton));
+  await tester.pumpAndSettle();
+}
+
 Future<void> pumpUntil(
   WidgetTester tester,
   bool Function() condition, {
@@ -55,9 +63,14 @@ Future<void> fillAndSubmitLogin(
 }
 
 Future<void> logOut(WidgetTester tester) async {
-  await tester.tap(find.byKey(Appkeys.settingsButton));
+  await toSettingsPage(tester);
+
   await tester.pumpAndSettle();
-  await tester.tap(find.byKey(Appkeys.logoutButton));
+  final logOutButton = find.byKey(Appkeys.logoutButton);
+  await tester.ensureVisible(logOutButton);
+  await tester.pump();
+  await tester.tap(logOutButton);
+
   await pumpUntil(
     tester,
     () => find.byKey(Appkeys.unauthenticatedFooter).evaluate().isNotEmpty,
@@ -80,7 +93,10 @@ bool isObscured(WidgetTester tester) {
 String settingsFieldText(WidgetTester tester, Key key) {
   return tester
       .widget<EditableText>(
-        find.descendant(of: find.byKey(key), matching: find.byType(EditableText)),
+        find.descendant(
+          of: find.byKey(key),
+          matching: find.byType(EditableText),
+        ),
       )
       .controller
       .text;

@@ -1,8 +1,5 @@
-import 'dart:io';
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutterapp/constants/appkeys.dart';
@@ -17,17 +14,21 @@ import 'util.dart';
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
 
-  const hostOverride = String.fromEnvironment('EMULATOR_HOST');
-  final emulatorHost = hostOverride.isNotEmpty
-      ? hostOverride
-      : (!kIsWeb && Platform.isAndroid ? '127.0.0.2' : '127.0.0.1');
+  const emulatorHost = String.fromEnvironment(
+    'EMULATOR_HOST',
+    defaultValue: '127.0.0.1',
+  );
 
   setUpAll(() async {
     await Firebase.initializeApp(
       options: DefaultFirebaseOptions.currentPlatform,
     );
 
-    await FirebaseAuth.instance.useAuthEmulator(emulatorHost, 9099);
+    await FirebaseAuth.instance.useAuthEmulator(
+      emulatorHost,
+      9099,
+      automaticHostMapping: false,
+    );
 
     // The emulator starts empty, so the guest account used by
     // "Login as Guest" has to be created first.
@@ -52,11 +53,10 @@ void main() {
     testWidgets(
       'Unauthenticated User enters the app and switches to settings page and back',
       (tester) async {
-        // Load app widget.
         await tester.pumpWidget(const MyApp());
         expect(find.byKey(Appkeys.homePage), findsOneWidget);
         expect(find.byKey(Appkeys.unauthenticatedFooter), findsOneWidget);
-        await tester.tap(find.byKey(Appkeys.settingsButton));
+        await toSettingsPage(tester);
         await tester.pumpAndSettle();
 
         final settingsPage = find.byKey(Appkeys.settingsPage);
@@ -83,7 +83,10 @@ void main() {
           ),
           findsOneWidget,
         );
-        await tester.tap(find.byKey(Appkeys.homebutton));
+        final homeButton = find.byKey(Appkeys.homebutton);
+        await tester.ensureVisible(homeButton);
+        await tester.pump();
+        await tester.tap(homeButton);
         await tester.pumpAndSettle();
         expect(find.byKey(Appkeys.homePage), findsOneWidget);
         expect(find.byKey(Appkeys.settingsPage), findsNothing);
@@ -110,8 +113,8 @@ void main() {
       );
 
       expect(find.byKey(Appkeys.unauthenticatedFooter), findsNothing);
-      await tester.tap(find.byKey(Appkeys.settingsButton));
-      await tester.pumpAndSettle();
+
+      await toSettingsPage(tester);
 
       expect(find.byKey(Appkeys.settingsPage), findsOneWidget);
       expect(settingsFieldText(tester, Appkeys.displayName), username);
@@ -151,8 +154,7 @@ void main() {
       expect(find.byKey(Appkeys.loginModal), findsNothing);
       expect(find.byKey(Appkeys.unauthenticatedFooter), findsNothing);
 
-      await tester.tap(find.byKey(Appkeys.settingsButton));
-      await tester.pumpAndSettle();
+      await toSettingsPage(tester);
       expect(find.byKey(Appkeys.settingsPage), findsOneWidget);
       expect(settingsFieldText(tester, Appkeys.displayName), username);
       expect(settingsFieldText(tester, Appkeys.email), email);
@@ -169,7 +171,10 @@ void main() {
       await tester.pumpAndSettle();
       expect(find.byKey(Appkeys.loginModal), findsOneWidget);
 
-      await tester.enterText(find.byKey(Appkeys.passwordTextField), 'secret1234!');
+      await tester.enterText(
+        find.byKey(Appkeys.passwordTextField),
+        'secret1234!',
+      );
       await tester.pump();
 
       expect(isObscured(tester), isTrue);
