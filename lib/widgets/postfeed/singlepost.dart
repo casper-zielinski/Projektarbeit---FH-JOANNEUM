@@ -7,11 +7,12 @@ import 'package:flutterapp/widgets/modal/commentmodal.dart';
 import 'package:flutterapp/widgets/modal/guestrestrictionmodal.dart';
 import 'package:flutterapp/widgets/modal/restrictionmodal.dart';
 import 'package:flutterapp/widgets/postfeed/postactionbutton.dart';
+import 'package:flutterapp/widgets/postfeed/profileinfo.dart';
 
 class Singlepost extends StatelessWidget {
   final Post post;
-
-  const Singlepost({super.key, required this.post});
+  final bool showBorder;
+  const Singlepost({super.key, required this.post, required this.showBorder});
 
   @override
   Widget build(BuildContext context) {
@@ -19,12 +20,18 @@ class Singlepost extends StatelessWidget {
       margin: EdgeInsets.all(0),
       padding: EdgeInsets.all(12),
       decoration: BoxDecoration(
-        border: Border(bottom: BorderSide(width: 2, color: AppColors.border)),
+        border: showBorder
+            ? Border(bottom: BorderSide(width: 2, color: AppColors.border))
+            : null,
       ),
       child: Column(
         spacing: 10,
         children: [
-          Row(),
+          Row(
+            children: [
+              Profileinfo(displayName: post.name, userName: post.username),
+            ],
+          ),
           Row(
             mainAxisSize: MainAxisSize.max,
             mainAxisAlignment: MainAxisAlignment.start,

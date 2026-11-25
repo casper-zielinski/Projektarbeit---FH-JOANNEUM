@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterapp/constants/appcolors.dart';
+import 'package:flutterapp/constants/textconstants.dart';
 import 'package:flutterapp/widgets/postfeed/profileinfo.dart';
 import 'package:flutterapp/widgets/rectangleiconbutton.dart';
 
@@ -44,7 +45,15 @@ class _PosterState extends State<Poster> {
             mainAxisSize: MainAxisSize.min,
             spacing: 12,
             children: [
-              Profileinfo(user: widget.user, hideName: true),
+              Profileinfo(
+                userName:
+                    widget.user?.displayName ??
+                    Textconstants.usernamePlaceholder,
+                displayName:
+                    widget.user?.displayName ??
+                    Textconstants.displaynamePlaceholder,
+                hideName: true,
+              ),
               TextField(
                 controller: _textController,
                 minLines: 1,

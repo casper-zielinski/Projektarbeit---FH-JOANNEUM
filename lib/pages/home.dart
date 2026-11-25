@@ -44,8 +44,12 @@ class _HomeState extends State<Home> {
               return ListView.builder(
                 itemCount: posts.length,
                 itemBuilder: (context, index) {
+                  final isLast = index == posts.length - 1;
                   final post = posts[index];
-                  return Singlepost(post: post);
+                  return Singlepost(
+                    post: post,
+                    showBorder: !isLast,
+                  );
                 },
               );
             },
