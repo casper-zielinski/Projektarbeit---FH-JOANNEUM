@@ -2,13 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutterapp/constants/appkeys.dart';
 import 'package:flutterapp/constants/appcolors.dart';
 import 'package:flutterapp/service/dto/authorized.dart';
+import 'package:flutterapp/service/dto/post.dart';
 import 'package:flutterapp/widgets/modal/commentmodal.dart';
 import 'package:flutterapp/widgets/modal/guestrestrictionmodal.dart';
 import 'package:flutterapp/widgets/modal/restrictionmodal.dart';
 import 'package:flutterapp/widgets/postfeed/postactionbutton.dart';
 
 class Singlepost extends StatelessWidget {
-  const Singlepost({super.key});
+  final Post post;
+
+  const Singlepost({super.key, required this.post});
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +30,7 @@ class Singlepost extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               Text(
-                "Placeholder Post Text",
+                post.text,
                 style: TextStyle(color: AppColors.textPrimary, fontSize: 18),
               ),
             ],
@@ -37,7 +40,7 @@ class Singlepost extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               Text(
-                "4 days ago",
+                post.timeStamp.day.toString(),
                 style: TextStyle(color: AppColors.textSecondary, fontSize: 12),
               ),
             ],
@@ -49,7 +52,7 @@ class Singlepost extends StatelessWidget {
               Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  const Text("3"),
+                  Text(post.likes.length.toString()),
                   PostActionButton(
                     icon: Icons.thumb_up,
                     key: Appkeys.likeButton,
