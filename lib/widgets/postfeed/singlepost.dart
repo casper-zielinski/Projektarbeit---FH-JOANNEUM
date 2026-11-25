@@ -29,9 +29,12 @@ class Singlepost extends StatelessWidget {
             mainAxisSize: MainAxisSize.max,
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              Text(
-                post.text,
-                style: TextStyle(color: AppColors.textPrimary, fontSize: 18),
+              Expanded(
+                child: Text(
+                  post.text,
+                  style: TextStyle(color: AppColors.textPrimary, fontSize: 18),
+                  softWrap: true,
+                ),
               ),
             ],
           ),
