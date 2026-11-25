@@ -32,7 +32,7 @@ class _RootState extends State<Root> {
               Sidebar(onSelect: (apppage) => _goTo(apppage), user: user),
               Expanded(
                 child: switch (_page) {
-                  AppPage.home => const Home(),
+                  AppPage.home => Home(user: user),
                   AppPage.settings => Settings(user: user),
                 },
               ),

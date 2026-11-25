@@ -5,8 +5,8 @@ import 'package:flutterapp/constants/appkeys.dart';
 Future<void> toSettingsPage(WidgetTester tester) async {
   final settingsButton = find.byKey(Appkeys.settingsButton);
   await tester.ensureVisible(settingsButton);
-  await tester.pump();
-  await tester.tap(find.byKey(Appkeys.settingsButton));
+  await tester.pumpAndSettle();
+  await tester.tap(settingsButton);
   await tester.pumpAndSettle();
 }
 
