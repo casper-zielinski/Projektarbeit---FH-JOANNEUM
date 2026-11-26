@@ -5,8 +5,14 @@ import 'package:flutterapp/constants/appcolors.dart';
 class PostActionButton extends StatelessWidget {
   final IconData icon;
   final VoidCallback? onPressed;
+  final Color? color;
 
-  const PostActionButton({super.key, required this.icon, this.onPressed});
+  const PostActionButton({
+    super.key,
+    required this.icon,
+    this.onPressed,
+    this.color,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +26,7 @@ class PostActionButton extends StatelessWidget {
         minimumSize: WidgetStatePropertyAll(Size(28, 28)),
         padding: WidgetStatePropertyAll(EdgeInsets.zero),
       ),
-      icon: Icon(icon, color: AppColors.iconDefault, size: 16),
+      icon: Icon(icon, color: color ?? AppColors.iconDefault, size: 16),
     );
   }
 }

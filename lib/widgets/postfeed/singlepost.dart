@@ -1,8 +1,11 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterapp/constants/appkeys.dart';
 import 'package:flutterapp/constants/appcolors.dart';
+import 'package:flutterapp/service/authservice.dart';
 import 'package:flutterapp/service/dto/authorized.dart';
 import 'package:flutterapp/service/dto/post.dart';
+import 'package:flutterapp/service/firestoreservice.dart';
 import 'package:flutterapp/widgets/modal/commentmodal.dart';
 import 'package:flutterapp/widgets/modal/guestrestrictionmodal.dart';
 import 'package:flutterapp/widgets/modal/restrictionmodal.dart';
@@ -67,6 +70,12 @@ class Singlepost extends StatelessWidget {
                   PostActionButton(
                     icon: Icons.thumb_up,
                     key: Appkeys.likeButton,
+                    color:
+                        post.likes.contains(
+                          FirebaseAuth.instance.currentUser?.email,
+                        )
+                        ? AppColors.primaryBlue
+                        : null,
                     onPressed: () async {
                       if (Authorized.isGuest) {
                         showDialog(
@@ -80,7 +89,12 @@ class Singlepost extends StatelessWidget {
                           barrierColor: AppColors.modalBarrier,
                           builder: (context) => const Guestrestrictionmodal(),
                         );
-                      } else {}
+                      } else {
+                        await Firestoreservice().likePost(
+                          post.id ?? "",
+                          FirebaseAuth.instance.currentUser?.email ?? "",
+                        );
+                      }
                     },
                   ),
                 ],

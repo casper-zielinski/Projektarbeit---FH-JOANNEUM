@@ -51,6 +51,24 @@ class Firestoreservice {
     }
   }
 
+  Future<void> likePost(String postId, String useremail) async {
+    final docRef = _postsRef.doc(postId);
+    final postSnapshot = await docRef.get();
+    if (!postSnapshot.exists) return;
+
+    final List<String> likes = postSnapshot.data()?.likes ?? [];
+
+    if (likes.contains(useremail)) {
+      await docRef.update({
+        'likes': FieldValue.arrayRemove([useremail]),
+      });
+    } else {
+      await docRef.update({
+        'likes': FieldValue.arrayUnion([useremail]),
+      });
+    }
+  }
+
   Future<void> createUser({
     required String uid,
     required String email,
