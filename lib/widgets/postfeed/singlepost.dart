@@ -8,6 +8,7 @@ import 'package:flutterapp/widgets/modal/guestrestrictionmodal.dart';
 import 'package:flutterapp/widgets/modal/restrictionmodal.dart';
 import 'package:flutterapp/widgets/postfeed/postactionbutton.dart';
 import 'package:flutterapp/widgets/postfeed/profileinfo.dart';
+import 'package:timeago/timeago.dart' as timeago;
 
 class Singlepost extends StatelessWidget {
   final Post post;
@@ -50,7 +51,7 @@ class Singlepost extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               Text(
-                post.timeStamp.day.toString(),
+                timeago.format(post.timeStamp),
                 style: TextStyle(color: AppColors.textSecondary, fontSize: 12),
               ),
             ],

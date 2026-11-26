@@ -1,7 +1,5 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterapp/constants/appcolors.dart';
-import 'package:flutterapp/constants/textconstants.dart';
 
 class Profileinfo extends StatelessWidget {
   final String displayName;
