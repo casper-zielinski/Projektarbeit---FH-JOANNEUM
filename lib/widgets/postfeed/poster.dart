@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterapp/constants/appcolors.dart';
 import 'package:flutterapp/constants/textconstants.dart';
+import 'package:flutterapp/service/firestoreservice.dart';
 import 'package:flutterapp/widgets/postfeed/profileinfo.dart';
 import 'package:flutterapp/widgets/rectangleiconbutton.dart';
 
@@ -83,7 +84,16 @@ class _PosterState extends State<Poster> {
                           ? AppColors.info
                           : AppColors.secondary,
                       icon: Icon(Icons.email, size: 20),
-                      onPressed: () {},
+                      onPressed: () async {
+                        if (value.text.isNotEmpty) {
+                          await Firestoreservice().sendPost(
+                            userDto: await Firestoreservice().getUser(
+                              widget.user?.uid ?? "",
+                            ),
+                            text: value.text,
+                          );
+                        }
+                      },
                       padding: EdgeInsets.symmetric(
                         horizontal: 6,
                         vertical: 10,

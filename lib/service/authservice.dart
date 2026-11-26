@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutterapp/service/Exceptions/authexception.dart';
 import 'package:flutterapp/service/dto/authorized.dart';
+import 'package:flutterapp/service/firestoreservice.dart';
 
 class AuthService {
   AuthService({FirebaseAuth? auth}) : _auth = auth ?? FirebaseAuth.instance;
@@ -32,6 +33,19 @@ class AuthService {
 
       await user.updateDisplayName(username);
       await user.reload();
+
+      try {
+        await Firestoreservice().createUser(
+          uid: user.uid,
+          email: email,
+          name: username, // signUp hat noch keinen eigenen name-Parameter
+          username: username,
+        );
+      } catch (e) {
+        throw AuthException(
+          'Sign up failed for an unknown reason, please try again.',
+        );
+      }
 
       Authorized.authenticate();
       return _auth.currentUser;
